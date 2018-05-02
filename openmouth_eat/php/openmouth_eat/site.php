@@ -9,6 +9,7 @@ defined('IN_IA') or exit('Access Denied');
 
 class Openmouth_eatModuleSite extends WeModuleSite {
 
+	/*
 	public function doWebCatalogs() {
 		//这个操作被定义用来呈现 管理中心导航菜单
 	}
@@ -30,5 +31,6 @@ class Openmouth_eatModuleSite extends WeModuleSite {
 	public function doWebOrders() {
 		//这个操作被定义用来呈现 管理中心导航菜单
 	}
+	*/
 
 }
