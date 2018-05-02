@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="">
+	<application setting="false">
+		<name><![CDATA[饭来张口]]></name>
+		<identifie><![CDATA[openmouth_eat]]></identifie>
+		<version><![CDATA[1.2]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[智慧餐厅，在线点餐]]></ability>
+		<description><![CDATA[饭来张口，智慧餐厅，在线点餐]]></description>
+		<author><![CDATA[webfunny]]></author>
+		<url><![CDATA[http://api.nanhuaren.cn]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+			<message type="image" />
+			<message type="location" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+		<supports>
+			<item type="app" />
+			<item type="wxapp" />
+		</supports>
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="板块管理" do="catalogs" state="list" direct="false" />
+			<entry title="门店管理" do="shops" state="list" direct="false" />
+			<entry title="商品分类" do="goodsCatalogs" state="list" direct="false" />
+			<entry title="商品管理" do="goods" state="list" direct="false" />
+			<entry title="用户管理" do="users" state="list" direct="false" />
+			<entry title="卡券管理" do="coupons" state="list" direct="false" />
+			<entry title="订单管理" do="orders" state="list" direct="false" />
+		</menu>
+		<page>
+			<entry title="首页" do="/openmouth_eat/pages/index/index" state="" direct="" />
+			<entry title="个人中心" do="/openmouth_eat/pages/mine/index" state="" direct="" />
+			<entry title="我的红包" do="/openmouth_eat/pages/mine/coupon" state="" direct="" />
+			<entry title="我的订单" do="/openmouth_eat/pages/order/index" state="" direct="" />
+		</page>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>
