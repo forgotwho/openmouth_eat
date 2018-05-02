@@ -33,7 +33,7 @@ if ($op=='post'){
             $res = pdo_update('openmouth_eat_goods',$data,array('id'=>$id));
             message('更新成功',$this->createWebUrl('goods',array('op'=>'display')));
         }else{			
-			$data['seller_id'] = $_GPC['seller_id'];
+			$data['seller_id'] = $_W['uniacid'];
 			$data['sales'] = 0;
 			$data['uniacid'] = $_W['uniacid'];
 			$data['create_time'] = TIMESTAMP;

@@ -43,7 +43,7 @@ if ($op=='post'){
             $res = pdo_update('openmouth_eat_shops',$data,array('id'=>$id));
             message('更新成功',$this->createWebUrl('shops',array('op'=>'display')));
         }else{			
-			$data['seller_id'] = TIMESTAMP;
+			$data['seller_id'] = $_W['uniacid'];
 			$data['sales'] = 0;
 			$data['overall']=5;
 			$data['quality']=5;
