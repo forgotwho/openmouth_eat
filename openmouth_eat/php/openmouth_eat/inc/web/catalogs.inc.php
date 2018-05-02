@@ -27,7 +27,7 @@ if ($op=='post'){
         if ($id){
 			$data['update_time'] = TIMESTAMP;
             $res = pdo_update('openmouth_eat_catalogs',$data,array('id'=>$id));
-            message('更新板块成功',$this->createWebUrl('catalogs',array('op'=>'display')));
+            message('更新成功',$this->createWebUrl('catalogs',array('op'=>'display')));
         }else{
 			$data['uniacid'] = $_W['uniacid'];
 			$data['create_time'] = TIMESTAMP;
@@ -45,7 +45,7 @@ if ($op=='post'){
     $id = $_GPC['id'];
     $res = pdo_delete('openmouth_eat_catalogs',array('id'=>$id));
     if ($res) {
-        message('成功删除板块',$this->createWebUrl('catalogs',array('op'=>'display')));
+        message('删除成功',$this->createWebUrl('catalogs',array('op'=>'display')));
     }
 }
 
