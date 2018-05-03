@@ -55,7 +55,11 @@ if ($op=='post'){
         }
     }
 } elseif ($op=='display'){
-    $list = pdo_fetch('SELECT * FROM '.tablename('openmouth_eat_shop').' WHERE uniacid=:uniacid',array(':uniacid'=>$_W['uniacid']));
+    $page = max(1,intval($_GPC['page']));
+    $pagesize = 10;
+    $lists = pdo_fetchall('SELECT * FROM '.tablename('openmouth_eat_shop').' WHERE uniacid =:uniacid ORDER BY `id` ASC LIMIT '.($page - 1) * $pagesize . "," . $pagesize,array(':uniacid'=>$_W['uniacid']));	
+    $total = pdo_fetchcolumn("SELECT COUNT(*) FROM ". tablename('openmouth_eat_shop').' WHERE uniacid =:uniacid',array(':uniacid'=>$_W['uniacid']) );
+    $pagination = pagination($total, $page,$pagesize);
 } elseif ($op == 'delete'){
     $id = $_GPC['id'];
     $res = pdo_delete('openmouth_eat_shop',array('id'=>$id));
