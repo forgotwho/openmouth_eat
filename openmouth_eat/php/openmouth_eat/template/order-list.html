@@ -1,12 +1,12 @@
 {template 'common/header'}
 <div id="js-wesite-article-display">
     <div class="pull-right">
-        <a href="{php echo $this->createWebUrl('catalogs',array('op' => 'post'))}" class="btn btn-primary we7-padding-horizontal">+新增板块</a>
+        <a href="{php echo $this->createWebUrl('order',array('op' => 'post'))}" class="btn btn-primary we7-padding-horizontal">+新增订单</a>
     </div>
-    <form action="{php echo $this->createWebUrl('catalogs',array('op' => 'post'))}" method="post" class="form-inline" role="form">
+    <form action="{php echo $this->createWebUrl('order',array('op' => 'display'))}" method="post" class="form-inline" role="form">
         <input type="hidden" name = "id" value="{$_GPC['id']}" />
         <div class="input-group col-sm-5">
-            <input class="form-control" name="title" id="" type="text" value="{$keyword}" placeholder="请输入板块名称">
+            <input class="form-control" name="title" id="" type="text" value="{$keyword}" placeholder="请输入订单名称">
             <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-search"></i></button></span>
         </div>
     </form>
@@ -17,25 +17,29 @@
         <col/>
         <tr>
             <th></th>
-            <th class="text-left">名称</th>
-			<th class="text-left">图标</th>
-			<th class="text-left">描述</th>
-			<th class="text-left">状态</th>
-			<th class="text-left">排序</th>
+            <th class="text-left">订单编号</th>
+			<th class="text-left">商品</th>
+			<th class="text-left">订单金额</th>
+			<th class="text-left">收货人</th>
+			<th class="text-left">下单时间</th>
+			<th class="text-left">支付时间</th>
+			<th class="text-right">状态</th>
             <th class="text-right">操作</th>
         </tr>
         {loop $lists $list}
         <tr>
             <td></td>
-            <td class="text-left">{$list['title']}</td>
-			<td class="text-left"><img src="{php echo tomedia($list['icon'])}" width="100" alt="" /></td>
-			<td class="text-left">{$list['description']}</td>
-			<td class="text-left">{if $list['status']=="01"}启用{/if}{if $list['status']=="00"}停用{/if}</td>
-			<td class="text-left">{$list['priority']}</td>
+            <td class="text-left">{$list['order_no']}</td>
+			<td class="text-left"><img src="{php echo tomedia($list['pic_url'])}" width="50" alt="" /></td>
+			<td class="text-left">{$list['order_price']}</td>
+			<td class="text-left">{$list['receiver']}<br/> {$list['receiver_phone']}<br/> {$list['receiver_addr']}</td>
+			<td class="text-right">{$list['add_time']}</td>
+			<td class="text-right">{$list['pay_time']}</td>
+			<td class="text-right">{$list['state']}</td>
             <td>
                 <div class="link-group">
-                    <a href="{php echo $this->createWebUrl('catalogs', array('op' => 'post','id' => $list['id']))}">编辑</a>
-                    <a href="{php echo $this->createWebUrl('catalogs', array('op' => 'delete','id' => $list['id']))}" class="del">删除</a>
+                    <a href="{php echo $this->createWebUrl('order', array('op' => 'post','id' => $list['id']))}">编辑</a>
+                    <a href="{php echo $this->createWebUrl('order', array('op' => 'delete','id' => $list['id']))}" class="del">删除</a>
                 </div>
             </td>
         </tr>

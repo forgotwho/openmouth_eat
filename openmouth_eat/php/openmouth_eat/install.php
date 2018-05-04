@@ -3,7 +3,7 @@
 $sql = <<<EOT
 
 
-CREATE TABLE `ims_openmouth_eat_catalog` (
+CREATE TABLE `openmouth_eat_catalog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL COMMENT '分类名称',
   `icon` varchar(100) NOT NULL DEFAULT '' COMMENT '分类图标',
@@ -16,7 +16,7 @@ CREATE TABLE `ims_openmouth_eat_catalog` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_shop` (
+CREATE TABLE `openmouth_eat_shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `seller_id` varchar(100) NOT NULL COMMENT '门店号',
   `seller_name` varchar(100) NOT NULL DEFAULT '' COMMENT '门店名称',
@@ -48,7 +48,7 @@ CREATE TABLE `ims_openmouth_eat_shop` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_shop_promotion` (
+CREATE TABLE `openmouth_eat_shop_promotion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `seller_id` varchar(100) NOT NULL COMMENT '门店号',
   `pic_url` varchar(200) NOT NULL DEFAULT '' COMMENT '活动图片',  
@@ -61,10 +61,11 @@ CREATE TABLE `ims_openmouth_eat_shop_promotion` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_goods_catalog` (
+CREATE TABLE `openmouth_eat_goods_catalog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `seller_id` varchar(100) NOT NULL COMMENT '门店号',
   `menu_name` varchar(100) NOT NULL COMMENT '分类名称',
+  `description` mediumtext NULL  COMMENT '分类描述',
   `priority` int(11) NOT NULL DEFAULT 10 COMMENT '优先级',
   `status` varchar(100) NOT NULL DEFAULT '01' COMMENT '分类状态',
   `uniacid` int(11) NOT NULL,
@@ -73,7 +74,7 @@ CREATE TABLE `ims_openmouth_eat_goods_catalog` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_goods` (
+CREATE TABLE `openmouth_eat_goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pic_url` varchar(200) NOT NULL COMMENT '货品主图',
   `goods_name` varchar(100) NOT NULL COMMENT '货品名称',
@@ -85,6 +86,7 @@ CREATE TABLE `ims_openmouth_eat_goods` (
   `has_standard` int(10) NOT NULL COMMENT '是否有规格',  
   `seller_id` varchar(100) NOT NULL COMMENT '门店号',
   `catalog_id` int(11) NOT NULL COMMENT '分类ID',
+  `tags` varchar(100) NOT NULL COMMENT '标签组合',
   `priority` int(11) NOT NULL COMMENT '优先级',
   `uniacid` int(11) NOT NULL,
   `create_time` int(11) NOT NULL,
@@ -92,7 +94,7 @@ CREATE TABLE `ims_openmouth_eat_goods` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_goods_sub` (
+CREATE TABLE `openmouth_eat_goods_sub` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sub_name` varchar(100) NOT NULL COMMENT '规格名称',
   `price` decimal(10,2) NOT NULL COMMENT '规格价格',
@@ -107,7 +109,7 @@ CREATE TABLE `ims_openmouth_eat_goods_sub` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_coupon` (
+CREATE TABLE `openmouth_eat_coupon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL COMMENT '卡券名称',
   `code` varchar(100) NOT NULL COMMENT '卡券标识',
@@ -125,7 +127,7 @@ CREATE TABLE `ims_openmouth_eat_coupon` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_order` (
+CREATE TABLE `openmouth_eat_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_no` varchar(100) NOT NULL COMMENT '订单编号',
   `cut_money` decimal(10,2) NOT NULL COMMENT '商城优惠',
@@ -156,7 +158,7 @@ CREATE TABLE `ims_openmouth_eat_order` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_order_flow` (
+CREATE TABLE `openmouth_eat_order_flow` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_no` varchar(100) NOT NULL COMMENT '订单编号',
   `state` int(11) NOT NULL,
@@ -169,7 +171,7 @@ CREATE TABLE `ims_openmouth_eat_order_flow` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_user_address` (
+CREATE TABLE `openmouth_eat_user_address` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `receiver` varchar(100) NOT NULL DEFAULT '' COMMENT '联系人',
   `phone` varchar(100) NOT NULL COMMENT '手机号',
@@ -189,7 +191,7 @@ CREATE TABLE `ims_openmouth_eat_user_address` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_user_coupon` (
+CREATE TABLE `openmouth_eat_user_coupon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `coupon_id` int(11) NOT NULL COMMENT '卡券ID',
   `coupon_no` int(11) NOT NULL COMMENT '卡券编号',
@@ -204,7 +206,7 @@ CREATE TABLE `ims_openmouth_eat_user_coupon` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ims_openmouth_eat_user` (
+CREATE TABLE `openmouth_eat_user` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
   `mobile` varchar(100) DEFAULT NULL,

@@ -1,33 +1,57 @@
 {template 'common/header'}
 <ol class="breadcrumb we7-breadcrumb">
-    <a href="{php echo $this->createWebUrl('catalogs')}"><i class="wi wi-back-circle"></i> </a>
-    <li><a href="{php echo $this->createWebUrl('catalogs')}">板块管理</a></li>
-    <li><a href="#">{if $id==""}板块新增{/if}{if $id!=null}板块编辑{/if}</a></li>
+    <a href="{php echo $this->createWebUrl('coupon')}"><i class="wi wi-back-circle"></i> </a>
+    <li><a href="{php echo $this->createWebUrl('coupon')}">卡券管理</a></li>
+    <li><a href="#">{if $id==""}卡券新增{/if}{if $id!=null}卡券编辑{/if}</a></li>
 </ol>
-<form action="{php echo $this->createWebUrl('catalogs',array('op' => 'post'))}" method="post" class="article-post" enctype="multipart/form-data">
+<form action="{php echo $this->createWebUrl('coupon',array('op' => 'post'))}" method="post" class="article-post" enctype="multipart/form-data">
     <input type="hidden" name="id" value="{$id}">
     <div class="form-group">
         <label for="" class="control-label col-sm-2">名称</label>
         <div class="form-controls col-sm-8">
-            <input type="text" class="form-control" name="title" value="{$list['title']}">
+            <input type="text" class="form-control" name="name" value="{$list['name']}">
         </div>
     </div>
 	<div class="form-group">
-        <label for="" class="control-label col-sm-2">图标</label>
+        <label for="" class="control-label col-sm-2">标识</label>
         <div class="form-controls col-sm-8">
-			{php echo tpl_form_field_image('icon', $list['icon'], '');}
+            <input type="text" class="form-control" name="code" value="{$list['code']}">
         </div>
     </div>
 	<div class="form-group">
-        <label for="" class="control-label col-sm-2">描述</label>
+        <label for="" class="control-label col-sm-2">金额</label>
         <div class="form-controls col-sm-8">
-            <input type="text" class="form-control" name="description" value="{$list['description']}">
+            <input type="text" class="form-control" name="money" value="{$list['money']}">
+        </div>
+    </div>
+	<div class="form-group">
+        <label for="" class="control-label col-sm-2">数量</label>
+        <div class="form-controls col-sm-8">
+            <input type="text" class="form-control" name="num" value="{$list['num']}">
+        </div>
+    </div>
+	<div class="form-group">
+        <label for="" class="control-label col-sm-2">发行时间</label>
+        <div class="form-controls col-sm-8">
+            <input type="text" class="form-control" name="publish_time" value="{$list['publish_time']}">
+        </div>
+    </div>
+	<div class="form-group">
+        <label for="" class="control-label col-sm-2">截止时间</label>
+        <div class="form-controls col-sm-8">
+            <input type="text" class="form-control" name="deadline_time" value="{$list['deadline_time']}">
+        </div>
+    </div>
+	<div class="form-group">
+        <label for="" class="control-label col-sm-2">使用范围</label>
+        <div class="form-controls col-sm-8">
+            <input type="text" class="form-control" name="useful_type" value="{$list['useful_type']}">
         </div>
     </div>
 	<div class="form-group">
         <label for="" class="control-label col-sm-2">状态</label>
         <div class="form-controls col-sm-8">
-			<input type="radio" name="status" value="01" {if $list['status']=="01"}checked{/if}>启用
+			<input type="radio" name="status" value="01" {if $list['status']=="01" or $list['status']==null}checked{/if}>启用
 			<input type="radio" name="status" value="00" {if $list['status']=="00"}checked{/if}>停用
         </div>
     </div>

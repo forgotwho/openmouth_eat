@@ -1,12 +1,30 @@
 {template 'common/header'}
 <div id="js-wesite-article-display">
     <div class="pull-right">
-        <a href="{php echo $this->createWebUrl('catalogs',array('op' => 'post'))}" class="btn btn-primary we7-padding-horizontal">+新增板块</a>
+        <a href="{php echo $this->createWebUrl('goods',array('op' => 'post'))}" class="btn btn-primary we7-padding-horizontal">+新增商品</a>
     </div>
-    <form action="{php echo $this->createWebUrl('catalogs',array('op' => 'post'))}" method="post" class="form-inline" role="form">
+    <form action="{php echo $this->createWebUrl('goods',array('op' => 'display'))}" method="post" class="form-inline" role="form">
         <input type="hidden" name = "id" value="{$_GPC['id']}" />
-        <div class="input-group col-sm-5">
-            <input class="form-control" name="title" id="" type="text" value="{$keyword}" placeholder="请输入板块名称">
+        <div class="input-group col-sm-3">
+            <input class="form-control" name="goods_name" id="goods_name" type="text" value="{$goods_name}" placeholder="请输入商品名称">
+        </div>
+		<div class="input-group col-sm-3">
+			<select class="form-control" name="catalog_id">
+				<option value="">请选择分类</option>
+				{loop $goods_catalogs $catalog}
+				<option value="{$catalog['id']}" {if $catalog_id==$catalog['id']}selected{/if}>{$catalog['menu_name']}</option>
+				{/loop}
+			</select>
+        </div>
+		<div class="input-group col-sm-3">
+			<select class="form-control" name="tag">
+				<option value="">请选择板块</option>
+				{loop $catalogs $catalog}
+				<option value="{$catalog['id']}" {if $tag==$catalog['id']}selected{/if}>{$catalog['title']}</option>
+				{/loop}
+			</select>
+        </div>
+		<div class="input-group col-sm-1">
             <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-search"></i></button></span>
         </div>
     </form>
@@ -18,31 +36,39 @@
         <tr>
             <th></th>
             <th class="text-left">名称</th>
-			<th class="text-left">图标</th>
-			<th class="text-left">描述</th>
-			<th class="text-left">状态</th>
-			<th class="text-left">排序</th>
+			<th class="text-left">主图</th>
+			<th class="text-left">分类</th>
+			<th class="text-left">价格</th>
+			<th class="text-left">餐盒费</th>
+			<th class="text-left">库存</th>
+			<th class="text-left">规格</th>
+			<th class="text-right">状态</th>
+			<th class="text-right">排序</th>
             <th class="text-right">操作</th>
         </tr>
         {loop $lists $list}
         <tr>
             <td></td>
-            <td class="text-left">{$list['title']}</td>
-			<td class="text-left"><img src="{php echo tomedia($list['icon'])}" width="100" alt="" /></td>
-			<td class="text-left">{$list['description']}</td>
-			<td class="text-left">{if $list['status']=="01"}启用{/if}{if $list['status']=="00"}停用{/if}</td>
-			<td class="text-left">{$list['priority']}</td>
+            <td class="text-left">{$list['goods_name']}</td>
+			<td class="text-left"><img src="{php echo tomedia($list['pic_url'])}" width="50" alt="" /></td>
+			<td class="text-left">{$list['menu_name']}</td>
+			<td class="text-left">{$list['price']}</td>
+			<td class="text-left">{$list['packing_fee']}</td>
+			<td class="text-left">{$list['num']}</td>
+			<td class="text-left">{$list['has_standard']}</td>
+			<td class="text-right">{if $list['status']=="01"}启用{/if}{if $list['status']=="00"}停用{/if}</td>
+			<td class="text-right">{$list['priority']}</td>
             <td>
                 <div class="link-group">
-                    <a href="{php echo $this->createWebUrl('catalogs', array('op' => 'post','id' => $list['id']))}">编辑</a>
-                    <a href="{php echo $this->createWebUrl('catalogs', array('op' => 'delete','id' => $list['id']))}" class="del">删除</a>
+                    <a href="{php echo $this->createWebUrl('goods', array('op' => 'post','id' => $list['id']))}">编辑</a>
+                    <a href="{php echo $this->createWebUrl('goods', array('op' => 'delete','id' => $list['id']))}" class="del">删除</a>
                 </div>
             </td>
         </tr>
         {/loop}
     </table>
     <div class="text-right we7-margin-top">
-        {$pager}
+        {$pagination}
     </div>
 </div>
 {template 'common/footer'}

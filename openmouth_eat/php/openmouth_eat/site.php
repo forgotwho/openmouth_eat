@@ -7,7 +7,10 @@
  */
 defined('IN_IA') or exit('Access Denied');
 
+require_once 'defines.php';
+
 class Openmouth_eatModuleSite extends WeModuleSite {
+
 
 	/*
 	public function doWebCatalogs() {

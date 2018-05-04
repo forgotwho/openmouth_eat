@@ -20,7 +20,6 @@ if ($op=='post'){
 		}
         $data['title']=$_GPC['title'];
 		$data['icon']=safe_gpc_string($_GPC['icon']);
-        $data['description']=$_GPC['description'];
 		$data['status']=$_GPC['status']?$_GPC['status']:'00';
 		$data['priority']=$_GPC['priority']?$_GPC['priority']:10;
         
@@ -29,7 +28,6 @@ if ($op=='post'){
             $res = pdo_update('openmouth_eat_catalog',$data,array('id'=>$id));
             message('更新成功',$this->createWebUrl('catalog',array('op'=>'display')));
         }else{
-			$data['seller_id'] = $_W['uniacid'];
 			$data['uniacid'] = $_W['uniacid'];
 			$data['create_time'] = TIMESTAMP;
 			$res = pdo_insert('openmouth_eat_catalog',$data);
@@ -39,7 +37,7 @@ if ($op=='post'){
 } elseif ($op=='display'){
     $page = max(1,intval($_GPC['page']));
     $pagesize = 10;
-    $lists = pdo_fetchall('SELECT * FROM '.tablename('openmouth_eat_catalog').' WHERE uniacid =:uniacid ORDER BY `id` ASC LIMIT '.($page - 1) * $pagesize . "," . $pagesize,array(':uniacid'=>$_W['uniacid']));	
+    $lists = pdo_fetchall('SELECT * FROM '.tablename('openmouth_eat_catalog').' WHERE uniacid =:uniacid ORDER BY priority DESC,`id` ASC LIMIT '.($page - 1) * $pagesize . "," . $pagesize,array(':uniacid'=>$_W['uniacid']));	
     $total = pdo_fetchcolumn("SELECT COUNT(*) FROM ". tablename('openmouth_eat_catalog').' WHERE uniacid =:uniacid',array(':uniacid'=>$_W['uniacid']) );
     $pagination = pagination($total, $page,$pagesize);
 } elseif ($op == 'delete'){
