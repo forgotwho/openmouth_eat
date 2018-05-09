@@ -61,7 +61,7 @@ if ($op=='post'){
     $total = pdo_fetchcolumn("SELECT COUNT(*) FROM ". tablename('openmouth_eat_shop').' WHERE uniacid =:uniacid',array(':uniacid'=>$_W['uniacid']) );
     $pagination = pagination($total, $page,$pagesize);
 }  elseif ($op=='display'){
-	$template='shop-detail';
+	$template='shop-home';
     $list = pdo_fetch('SELECT * FROM '.tablename('openmouth_eat_shop').' WHERE uniacid=:uniacid',array(':uniacid'=>$_W['uniacid']));
 	$id = $list['id'];
 } elseif ($op == 'delete'){
@@ -69,6 +69,14 @@ if ($op=='post'){
     $res = pdo_delete('openmouth_eat_shop',array('id'=>$id));
     if ($res) {
         message('删除成功',$this->createWebUrl('shop',array('op'=>'display')));
+    }
+} elseif ($op == 'open'){
+    $id = $_GPC['id'];
+	$data['is_rest'] = $_GPC['is_rest'];
+	$data['update_time'] = TIMESTAMP;
+    $res = pdo_update('openmouth_eat_shop',$data,array('id'=>$id));
+    if ($res) {
+        message('更新成功',$this->createWebUrl('shop',array('op'=>'display')));
     }
 }
 

@@ -1,0 +1,48 @@
+{template 'common/header'}
+<ol class="breadcrumb we7-breadcrumb">
+    <a href="{php echo $this->createWebUrl('user_coupon')}"><i class="wi wi-back-circle"></i> </a>
+    <li><a href="{php echo $this->createWebUrl('user_coupon')}">卡券管理</a></li>
+    <li><a href="#">{if $id==""}卡券发放{/if}{if $id!=null}卡券编辑{/if}</a></li>
+</ol>
+<form action="{php echo $this->createWebUrl('user_coupon',array('op' => 'post'))}" method="post" class="article-post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{$id}">
+	<div class="form-group">
+        <label for="" class="control-label col-sm-2">选择卡券</label>
+        <div class="form-controls col-sm-8">
+			<select class="form-control" name="coupon_id">
+				<option value="">请选择卡券</option>
+				{loop $coupons $coupon}
+				<option value="{$coupon['id']}" {if $list['coupon_id']==$coupon['id']}selected{/if}>{$coupon['name']}</option>
+				{/loop}
+			</select>
+        </div>
+    </div>
+	<div class="form-group">
+        <label for="" class="control-label col-sm-2">选择用户</label>
+        <div class="form-controls col-sm-8">
+			<select class="form-control" name="user_id">
+				<option value="">请选择用户</option>
+				{loop $users $user}
+				<option value="{$user['id']}" {if $list['user_id']==$user['id']}selected{/if}>{$user['name']}</option>
+				{/loop}
+			</select>
+        </div>
+    </div>
+	<div class="form-group">
+        <label for="" class="control-label col-sm-2">使用状态</label>
+        <div class="form-controls col-sm-8">
+			<input type="radio" name="use_status" value="0" {if $list['use_status']=="0" or $list['use_status']==null}checked{/if}>未使用
+			<input type="radio" name="use_status" value="1" {if $list['use_status']=="1"}checked{/if}>已使用
+			<input type="radio" name="use_status" value="2" {if $list['use_status']=="2"}checked{/if}>已过期
+        </div>
+    </div>
+	<div class="form-group">
+        <label for="" class="control-label col-sm-2">排序</label>
+        <div class="form-controls col-sm-8">
+            <input type="text" class="form-control" name="priority" value="{$list['priority']}">
+        </div>
+    </div>
+    <input name="submit" value="保存" class="btn btn-primary btn-submit" type="submit">
+    <input type="hidden" name="token" value="{$_W['token']}" />
+</form>
+{template 'common/footer'}

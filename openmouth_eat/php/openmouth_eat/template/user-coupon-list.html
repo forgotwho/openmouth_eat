@@ -1,0 +1,67 @@
+{template 'common/header'}
+<div id="js-wesite-article-display">
+    <div class="pull-right">
+        <a href="{php echo $this->createWebUrl('user_coupon',array('op' => 'post'))}" class="btn btn-primary we7-padding-horizontal">+发放卡券</a>
+    </div>
+    <form action="{php echo $this->createWebUrl('user_coupon',array('op' => 'display'))}" method="post" class="form-inline" role="form">
+        <input type="hidden" name = "id" value="{$_GPC['id']}" />
+		<div class="input-group col-sm-3">
+			<select class="form-control" name="coupon_id">
+				<option value="">请选择卡券</option>
+				{loop $coupons $coupon}
+				<option value="{$coupon['id']}" {if $coupon_id==$coupon['id']}selected{/if}>{$coupon['name']}</option>
+				{/loop}
+			</select>
+        </div>
+		<div class="input-group col-sm-3">
+			<select class="form-control" name="user_id">
+				<option value="">请选择用户</option>
+				{loop $users $user}
+				<option value="{$user['id']}" {if $user_id==$user['id']}selected{/if}>{$user['name']}</option>
+				{/loop}
+			</select>
+        </div>
+		<div class="input-group col-sm-3">
+            <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-search"></i></button></span>
+        </div>
+    </form>
+	<br/>
+    <table class="table we7-table table-hover article-list vertical-middle">
+        <col/>
+        <col/>
+        <col/>
+        <tr>
+            <th></th>
+            <th class="text-left">卡券名称</th>
+			<th class="text-left">卡券编号</th>
+			<th class="text-left">截止时间</th>
+			<th class="text-left">用户姓名</th>
+			<th class="text-left">使用时间</th>
+			<th class="text-left">使用状态</th>
+			<th class="text-left">发放时间</th>
+            <th class="text-right">操作</th>
+        </tr>
+        {loop $lists $list}
+        <tr>
+            <td></td>
+            <td class="text-left">{$list['coupon_name']}</td>
+			<td class="text-left">{$list['coupon_no']}</td>
+			<td class="text-left">{$list['deadline_time']}</td>
+			<td class="text-left">{$list['user_name']}</td>
+			<td class="text-left">{$list['use_time']}</td>
+			<td class="text-left">{if $list['use_status']==2}已过期{/if}{if $list['use_status']==1}已使用{/if}{if $list['use_status']==0}未使用{/if}</td>
+			<td class="text-left">{$list['create_time']}</td>
+            <td>
+                <div class="link-group">
+                    <a href="{php echo $this->createWebUrl('user_coupon', array('op' => 'post','id' => $list['id']))}">编辑</a>
+                    <a href="{php echo $this->createWebUrl('user_coupon', array('op' => 'delete','id' => $list['id']))}" class="del">删除</a>
+                </div>
+            </td>
+        </tr>
+        {/loop}
+    </table>
+    <div class="text-right we7-margin-top">
+        {$pager}
+    </div>
+</div>
+{template 'common/footer'}

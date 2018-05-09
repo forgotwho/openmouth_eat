@@ -11,6 +11,8 @@ if ($op=='post'){
     if ($id){
         $list = pdo_fetch('SELECT * FROM '.tablename('openmouth_eat_goods').' WHERE id=:id',array(':id'=>$id));
 		$list['tags'] = explode(',',$list['tags']);
+
+		$goods_subs = pdo_fetchall('SELECT * FROM '.tablename('openmouth_eat_goods_sub').' WHERE uniacid=:uniacid and goods_id=:goods_id  ORDER BY `priority` DESC,id ASC ',array(':uniacid'=>$_W['uniacid'],':goods_id'=>$id));
     }
 	
 	$catalogs = pdo_fetchall('SELECT * FROM '.tablename('openmouth_eat_catalog').' WHERE uniacid=:uniacid  ORDER BY `priority` DESC,id ASC ',array(':uniacid'=>$_W['uniacid']));
@@ -24,6 +26,9 @@ if ($op=='post'){
 		if($_GPC['pic_url'] == ""){
 			message("图片不得为空");
 		}
+		if($_GPC['has_standard']=='1'&&empty($_GPC['sub_name'])){
+			message("规格项不得为空");
+		}
         $data['goods_name']=$_GPC['goods_name'];
 		$data['pic_url']=safe_gpc_string($_GPC['pic_url']);
 		$data['price']=$_GPC['price'];
@@ -32,12 +37,36 @@ if ($op=='post'){
 		$data['has_standard']=$_GPC['has_standard'];
 		$data['catalog_id']=$_GPC['catalog_id'];
 		$tags=$_GPC['tags'];
-		$data['tags']=implode(',',$tags).',';
+		if(!empty($tags)){
+			$data['tags']=implode(',',$tags).',';
+		}
 		$data['status']=$_GPC['status']?$_GPC['status']:'00';
 		$data['priority']=$_GPC['priority']?$_GPC['priority']:10;
+
         if ($id){
 			$data['update_time'] = TIMESTAMP;
             $res = pdo_update('openmouth_eat_goods',$data,array('id'=>$id));
+			pdo_delete('openmouth_eat_goods_sub',array('uniacid'=>$_W['uniacid'],'goods_id'=>$id));
+			if($data['has_standard']=='1'){
+				$sub_name = $_GPC['sub_name'];
+				$sub_price = $_GPC['sub_price'];
+				$sub_packing_fee = $_GPC['sub_packing_fee'];
+				$sub_num = $_GPC['sub_num'];
+				$sub_priority = $_GPC['sub_priority'];
+				foreach ($sub_name as $key => $value) {
+					$sub = array();
+					$sub['sub_name'] = $sub_name[$key];
+					$sub['price'] = $sub_price[$key];
+					$sub['packing_fee'] = $sub_packing_fee[$key];
+					$sub['num'] = $sub_num[$key];
+					$sub['priority'] = $sub_priority[$key];
+					$sub['goods_id'] = $id;
+					$sub['seller_id'] = $_W['uniacid'];
+					$sub['uniacid'] = $_W['uniacid'];
+					$sub['create_time'] = TIMESTAMP;
+					pdo_insert('openmouth_eat_goods_sub',$sub);
+				}
+			}
             message('更新成功',$this->createWebUrl('goods',array('op'=>'display')));
         }else{			
 			$data['seller_id'] = $_W['uniacid'];
@@ -45,8 +74,30 @@ if ($op=='post'){
 			$data['uniacid'] = $_W['uniacid'];
 			$data['create_time'] = TIMESTAMP;
 			$res = pdo_insert('openmouth_eat_goods',$data);
+			$id = pdo_insertid();
+			if($data['has_standard']=='1'){
+				$sub_name = $_GPC['sub_name'];
+				$sub_price = $_GPC['sub_price'];
+				$sub_packing_fee = $_GPC['sub_packing_fee'];
+				$sub_num = $_GPC['sub_num'];
+				$sub_priority = $_GPC['sub_priority'];
+				foreach ($sub_name as $key => $value) {
+					$sub = array();
+					$sub['sub_name'] = $sub_name[$key];
+					$sub['price'] = $sub_price[$key];
+					$sub['packing_fee'] = $sub_packing_fee[$key];
+					$sub['num'] = $sub_num[$key];
+					$sub['priority'] = $sub_priority[$key];
+					$sub['goods_id'] = $id;
+					$sub['seller_id'] = $_W['uniacid'];
+					$sub['uniacid'] = $_W['uniacid'];
+					$sub['create_time'] = TIMESTAMP;
+					pdo_insert('openmouth_eat_goods_sub',$sub);
+				}
+			}
             message('添加成功',$this->createWebUrl('goods',array('op'=>'display')));
         }
+		
     }
 } elseif ($op=='display'){
     $page = max(1,intval($_GPC['page']));
@@ -88,6 +139,13 @@ if ($op=='post'){
     $res = pdo_delete('openmouth_eat_goods',array('id'=>$id));
     if ($res) {
         message('删除成功',$this->createWebUrl('goods',array('op'=>'display')));
+    }
+} elseif ($op == 'sub_delete'){
+    $id = $_GPC['id'];
+	$goods_id = $_GPC['goods_id'];
+    $res = pdo_delete('openmouth_eat_goods_sub',array('id'=>$id));
+    if ($res) {
+        message('删除成功',$this->createWebUrl('goods',array('op'=>'post','id'=>$goods_id)));
     }
 }
 

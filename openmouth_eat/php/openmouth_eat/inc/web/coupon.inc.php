@@ -15,9 +15,6 @@ if ($op=='post'){
 		if($_GPC['name'] == ""){
 			message("名称不得为空");
 		}
-		if($_GPC['code'] == ""){
-			message("编号不得为空");
-		}
         $data['name']=$_GPC['name'];
 		$data['code']=$_GPC['code'];
 		$data['money']=$_GPC['money'];
@@ -43,16 +40,53 @@ if ($op=='post'){
 } elseif ($op=='display'){
     $page = max(1,intval($_GPC['page']));
     $pagesize = 10;
-    $lists = pdo_fetchall('SELECT * FROM '.tablename('openmouth_eat_coupon').' WHERE uniacid =:uniacid ORDER BY `id` ASC LIMIT '.($page - 1) * $pagesize . "," . $pagesize,array(':uniacid'=>$_W['uniacid']));	
-    $total = pdo_fetchcolumn("SELECT COUNT(*) FROM ". tablename('openmouth_eat_coupon').' WHERE uniacid =:uniacid',array(':uniacid'=>$_W['uniacid']) );
+
+	$name = $_GPC['name'];
+
+	$where = 'and 1=1';
+	
+	$params = array(':uniacid'=>$_W['uniacid']);
+
+	if(!empty($name)){
+		$params['name'] = '%'.$name.'%';
+		$where = $where.' and name like :name ';
+	}
+
+	$sql = 'SELECT * FROM '.tablename('openmouth_eat_coupon').' WHERE uniacid =:uniacid '.$where.' ORDER BY priority DESC,`id` ASC LIMIT '.($page - 1) * $pagesize . "," . $pagesize;
+
+    $lists = pdo_fetchall($sql,$params);	
+    $total = pdo_fetchcolumn("SELECT COUNT(*) FROM ". tablename('openmouth_eat_coupon').' WHERE uniacid =:uniacid '.$where.' ',$params );
     $pagination = pagination($total, $page,$pagesize);
+
 } elseif ($op == 'delete'){
     $id = $_GPC['id'];
     $res = pdo_delete('openmouth_eat_coupon',array('id'=>$id));
     if ($res) {
         message('删除成功',$this->createWebUrl('coupon',array('op'=>'display')));
     }
-}
+} elseif ($op=='publish'){
+	$template='coupon-select';
+	$user_id = $_GPC['user_id'];
+	$coupons = pdo_fetchall('SELECT * FROM '.tablename('openmouth_eat_coupon').' WHERE uniacid =:uniacid ORDER BY priority DESC,`id` ASC',array(':uniacid'=>$_W['uniacid']));
+    if($_W['ispost']){
+		$coupon_ids=$_GPC['coupon_id'];
+		if(empty($coupon_ids)){
+			message("请选择卡券");
+		}
+        
+		$data['user_id']=$user_id;
+        foreach($coupon_ids as $key => $value){
+			$data['coupon_id']=$value[$key];
+			$data['coupon_no']=TIMESTAMP;
+			$data['use_status']='0';
+			$data['seller_id'] = $_W['uniacid'];		
+			$data['uniacid'] = $_W['uniacid'];
+			$data['create_time'] = TIMESTAMP;
+			$res = pdo_insert('openmouth_eat_user_coupon',$data);
+		}
+		message('添加成功',$this->createWebUrl('user',array('op'=>'display')));
+    }
+} 
 
 load()->func('tpl');
 include $this->template($template);

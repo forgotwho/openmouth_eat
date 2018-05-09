@@ -1,7 +1,7 @@
 {template 'common/header'}
 <div id="js-wesite-article-display">
     <div class="pull-right">
-        <a href="{php echo $this->createWebUrl('user',array('op' => 'post'))}" class="btn btn-primary we7-padding-horizontal">+新增用户</a>
+        <a class="btn btn-primary we7-padding-horizontal">同步用户</a>
     </div>
     <form action="{php echo $this->createWebUrl('user',array('op' => 'display'))}" method="post" class="form-inline" role="form">
         <input type="hidden" name = "id" value="{$_GPC['id']}" />
@@ -18,24 +18,25 @@
         <tr>
             <th></th>
             <th class="text-left">姓名</th>
-			<th class="text-left">图像</th>
-			<th class="text-left">openid</th>
+			<th class="text-left">手机号</th>
 			<th class="text-left">昵称</th>
+			<th class="text-left">图像</th>
 			<th class="text-right">状态</th>
-			<th class="text-right">排序</th>
+			<th class="text-right">注册时间</th>
             <th class="text-right">操作</th>
         </tr>
         {loop $lists $list}
         <tr>
             <td></td>
             <td class="text-left">{$list['name']}</td>
-			<td class="text-left"><img src="{php echo tomedia($list['avatarUrl'])}" width="50" alt="" /></td>
-			<td class="text-left">{$list['openid']}</td>
+			<td class="text-left">{$list['mobile']}</td>
 			<td class="text-left">{$list['nickName']}</td>
+			<td class="text-left"><img src="{php echo tomedia($list['avatarUrl'])}" width="50" alt="" /></td>
 			<td class="text-right">{if $list['status']=="01"}启用{/if}{if $list['status']=="00"}停用{/if}</td>
-			<td class="text-right">{$list['priority']}</td>
+			<td class="text-right">{php echo date("Y-m-d H:i:s",$list['create_time'])}</td>
             <td>
                 <div class="link-group">
+					<a href="{php echo $this->createWebUrl('user_coupon', array('op' => 'display','user_id' => $list['id']))}">查看卡券</a>
                     <a href="{php echo $this->createWebUrl('user', array('op' => 'post','id' => $list['id']))}">编辑</a>
                     <a href="{php echo $this->createWebUrl('user', array('op' => 'delete','id' => $list['id']))}" class="del">删除</a>
                 </div>

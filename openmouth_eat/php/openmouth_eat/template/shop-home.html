@@ -1,0 +1,125 @@
+{template 'common/header'}
+<div class="welcome-container" id="js-wxapp-home-welcome">
+	<div class="panel we7-panel wxapp-target">
+		<div class="panel-heading">今日订单数量</div>
+		<div class="panel-body we7-padding-vertical">
+			<div class="col-sm-3 text-center">
+				<div class="title">待付款</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+			<div class="col-sm-3 text-center">
+				<div class="title">待接单</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+			<div class="col-sm-3 text-center">
+				<div class="title">待发货</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+			<div class="col-sm-3 text-center">
+				<div class="title">已完成</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+		</div>		
+	</div>
+	<div class="panel we7-panel wxapp-target">
+		<div class="panel-heading">今日关键指标</div>
+		<div class="panel-body we7-padding-vertical">
+			<div class="col-sm-3 text-center">
+				<div class="title">订单总数</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+			<div class="col-sm-3 text-center">
+				<div class="title">订单总额</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+			<div class="col-sm-3 text-center">
+				<div class="title">完成订单数</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+			<div class="col-sm-3 text-center">
+				<div class="title">总收入额</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+		</div>
+		<div class="panel-heading">昨日关键指标</div>
+		<div class="panel-body we7-padding-vertical">
+			<div class="col-sm-3 text-center">
+				<div class="title">订单总数</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+			<div class="col-sm-3 text-center">
+				<div class="title">订单总额</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+			<div class="col-sm-3 text-center">
+				<div class="title">完成订单数</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+			<div class="col-sm-3 text-center">
+				<div class="title">总收入额</div>
+				<div>
+					<span class="today">0</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="js-wesite-article-display">
+    <table class="table we7-table table-hover article-list vertical-middle">
+        <col/>
+        <col/>
+        <col/>
+        <tr>
+            <th></th>
+            <th class="text-left">门店号</th>
+			<th class="text-left">门店名称</th>
+			<th class="text-left">门店图标</th>
+			<th class="text-left">营业状态</th>
+			<th class="text-left">状态</th>
+			<th class="text-right">排序</th>
+            <th class="text-right">操作</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="text-left">{$list['seller_id']}</td>
+			<td class="text-left">{$list['seller_name']}</td>
+			<td class="text-left"><img src="{php echo tomedia($list['pic_url'])}" width="50" alt="" /></td>
+			<td class="text-left">{if $list['is_rest']==0}营业中{/if}{if $list['is_rest']==1}休息中{/if}</td>
+			<td class="text-left">{if $list['status']=="01"}启用{/if}{if $list['status']=="00"}停用{/if}</td>
+			<td class="text-right">{$list['priority']}</td>
+            <td>
+                <div class="link-group">
+                    <a href="{php echo $this->createWebUrl('shop', array('op' => 'post','id' => $list['id']))}">编辑</a>
+                    {if $list['is_rest']==0}<a href="{php echo $this->createWebUrl('shop', array('op' => 'open','is_rest' => '1','id' => $list['id']))}" class="del">休息</a>{/if}
+					{if $list['is_rest']==1}<a href="{php echo $this->createWebUrl('shop', array('op' => 'open','is_rest' => '0','id' => $list['id']))}" class="del">开业</a>{/if}
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="text-right we7-margin-top">
+        {$pager}
+    </div>
+</div>
+{template 'common/footer'}

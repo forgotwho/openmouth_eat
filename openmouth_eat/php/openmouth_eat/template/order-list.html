@@ -1,8 +1,6 @@
 {template 'common/header'}
 <div id="js-wesite-article-display">
-    <div class="pull-right">
-        <a href="{php echo $this->createWebUrl('order',array('op' => 'post'))}" class="btn btn-primary we7-padding-horizontal">+新增订单</a>
-    </div>
+
     <form action="{php echo $this->createWebUrl('order',array('op' => 'display'))}" method="post" class="form-inline" role="form">
         <input type="hidden" name = "id" value="{$_GPC['id']}" />
         <div class="input-group col-sm-5">
@@ -19,7 +17,9 @@
             <th></th>
             <th class="text-left">订单编号</th>
 			<th class="text-left">商品</th>
-			<th class="text-left">订单金额</th>
+			<th class="text-left">订单总额</th>
+			<th class="text-left">优惠总额</th>
+			<th class="text-left">支付金额</th>
 			<th class="text-left">收货人</th>
 			<th class="text-left">下单时间</th>
 			<th class="text-left">支付时间</th>
@@ -32,13 +32,18 @@
             <td class="text-left">{$list['order_no']}</td>
 			<td class="text-left"><img src="{php echo tomedia($list['pic_url'])}" width="50" alt="" /></td>
 			<td class="text-left">{$list['order_price']}</td>
+			<td class="text-left">{$list['coupon_money']}</td>
+			<td class="text-left">{$list['pay_price']}</td>
 			<td class="text-left">{$list['receiver']}<br/> {$list['receiver_phone']}<br/> {$list['receiver_addr']}</td>
-			<td class="text-right">{$list['add_time']}</td>
-			<td class="text-right">{$list['pay_time']}</td>
-			<td class="text-right">{$list['state']}</td>
+			<td class="text-right">{php echo date("Y-m-d H:i:s",$list['add_time'])}</td>
+			<td class="text-right">{php echo date("Y-m-d H:i:s",$list['pay_time'])}</td>
+
+			<td class="text-right">{if $list['state']==1}待付款{/if}{if $list['state']==2}待接单{/if}{if $list['state']==3}待发货{/if}{if $list['state']==4 and $list['is_reviews']==0}待评价{/if}{if $list['state']==4 and $list['is_reviews']==1}已评价{/if}{if $list['state']==5}已取消{/if}</td>
             <td>
                 <div class="link-group">
-                    <a href="{php echo $this->createWebUrl('order', array('op' => 'post','id' => $list['id']))}">编辑</a>
+                    {if $list['state']==2}<a href="{php echo $this->createWebUrl('order', array('op' => 'take','id' => $list['id']))}">接单</a>{/if}
+					{if $list['state']==3}<a href="{php echo $this->createWebUrl('order', array('op' => 'deliver','id' => $list['id']))}">发货</a>{/if}
+					<a href="{php echo $this->createWebUrl('order', array('op' => 'post','id' => $list['id']))}">编辑</a>
                     <a href="{php echo $this->createWebUrl('order', array('op' => 'delete','id' => $list['id']))}" class="del">删除</a>
                 </div>
             </td>

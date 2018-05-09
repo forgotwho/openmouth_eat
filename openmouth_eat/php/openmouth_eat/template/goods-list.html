@@ -41,6 +41,7 @@
 			<th class="text-left">价格</th>
 			<th class="text-left">餐盒费</th>
 			<th class="text-left">库存</th>
+			<th class="text-left">销量</th>
 			<th class="text-left">规格</th>
 			<th class="text-right">状态</th>
 			<th class="text-right">排序</th>
@@ -55,8 +56,9 @@
 			<td class="text-left">{$list['price']}</td>
 			<td class="text-left">{$list['packing_fee']}</td>
 			<td class="text-left">{$list['num']}</td>
-			<td class="text-left">{$list['has_standard']}</td>
-			<td class="text-right">{if $list['status']=="01"}启用{/if}{if $list['status']=="00"}停用{/if}</td>
+			<td class="text-left">{$list['sales']}</td>
+			<td class="text-right">{if $list['has_standard']=="1"}有规格{/if}{if $list['has_standard']=="0"}无规格{/if}</td>
+			<td class="text-right">{if $list['status']=="01"}上架{/if}{if $list['status']=="00"}下架{/if}</td>
 			<td class="text-right">{$list['priority']}</td>
             <td>
                 <div class="link-group">

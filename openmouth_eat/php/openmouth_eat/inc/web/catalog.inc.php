@@ -37,8 +37,22 @@ if ($op=='post'){
 } elseif ($op=='display'){
     $page = max(1,intval($_GPC['page']));
     $pagesize = 10;
-    $lists = pdo_fetchall('SELECT * FROM '.tablename('openmouth_eat_catalog').' WHERE uniacid =:uniacid ORDER BY priority DESC,`id` ASC LIMIT '.($page - 1) * $pagesize . "," . $pagesize,array(':uniacid'=>$_W['uniacid']));	
-    $total = pdo_fetchcolumn("SELECT COUNT(*) FROM ". tablename('openmouth_eat_catalog').' WHERE uniacid =:uniacid',array(':uniacid'=>$_W['uniacid']) );
+
+	$title = $_GPC['title'];
+
+	$where = 'and 1=1';
+	
+	$params = array(':uniacid'=>$_W['uniacid']);
+
+	if(!empty($title)){
+		$params['title'] = '%'.$title.'%';
+		$where = $where.' and title like :title ';
+	}
+
+	$sql = 'SELECT * FROM '.tablename('openmouth_eat_catalog').' WHERE uniacid =:uniacid '.$where.' ORDER BY priority DESC,`id` ASC LIMIT '.($page - 1) * $pagesize . "," . $pagesize;
+
+    $lists = pdo_fetchall($sql,$params);	
+    $total = pdo_fetchcolumn("SELECT COUNT(*) FROM ". tablename('openmouth_eat_catalog').' WHERE uniacid =:uniacid '.$where.' ',$params );
     $pagination = pagination($total, $page,$pagesize);
 } elseif ($op == 'delete'){
     $id = $_GPC['id'];

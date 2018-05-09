@@ -3,10 +3,10 @@
     <div class="pull-right">
         <a href="{php echo $this->createWebUrl('coupon',array('op' => 'post'))}" class="btn btn-primary we7-padding-horizontal">+新增卡券</a>
     </div>
-    <form action="{php echo $this->createWebUrl('coupon',array('op' => 'post'))}" method="post" class="form-inline" role="form">
+    <form action="{php echo $this->createWebUrl('coupon',array('op' => 'display'))}" method="post" class="form-inline" role="form">
         <input type="hidden" name = "id" value="{$_GPC['id']}" />
         <div class="input-group col-sm-5">
-            <input class="form-control" name="title" id="" type="text" value="{$keyword}" placeholder="请输入卡券名称">
+            <input class="form-control" name="name" id="" type="text" value="{$name}" placeholder="请输入卡券名称">
             <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-search"></i></button></span>
         </div>
     </form>
@@ -17,10 +17,10 @@
         <col/>
         <tr>
             <th></th>
-            <th class="text-left">名称</th>
-			<th class="text-left">标识</th>
-			<th class="text-left">金额</th>
-			<th class="text-left">数量</th>
+            <th class="text-left">卡券名称</th>
+			<th class="text-left">卡券金额</th>
+			<th class="text-left">发行数量</th>
+			<th class="text-left">已发放数量</th>
 			<th class="text-left">截止时间</th>
 			<th class="text-left">使用范围</th>
 			<th class="text-right">状态</th>
@@ -31,15 +31,16 @@
         <tr>
             <td></td>
             <td class="text-left">{$list['name']}</td>
-			<td class="text-left">{$list['code']}</td>
 			<td class="text-left">{$list['money']}</td>
 			<td class="text-left">{$list['num']}</td>
+			<td class="text-left">{$list['publish_num']}</td>
 			<td class="text-left">{$list['deadline_time']}</td>
 			<td class="text-left">{$list['useful_type']}</td>
 			<td class="text-right">{if $list['status']=="01"}启用{/if}{if $list['status']=="00"}停用{/if}</td>
 			<td class="text-right">{$list['priority']}</td>
             <td>
                 <div class="link-group">
+					<a href="{php echo $this->createWebUrl('user_coupon', array('op' => 'display','coupon_id' => $list['id']))}">发放卡券</a>
                     <a href="{php echo $this->createWebUrl('coupon', array('op' => 'post','id' => $list['id']))}">编辑</a>
                     <a href="{php echo $this->createWebUrl('coupon', array('op' => 'delete','id' => $list['id']))}" class="del">删除</a>
                 </div>
